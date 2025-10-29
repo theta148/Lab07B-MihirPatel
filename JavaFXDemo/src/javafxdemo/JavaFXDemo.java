@@ -7,10 +7,12 @@ package javafxdemo;
 import java.util.Random;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -42,15 +44,22 @@ public class JavaFXDemo extends Application{
         
         StackPane middle = new StackPane();
         Label top = new Label("Random Game");
-        Label bottom = new Label("Waiting..");
+        //Label bottom = new Label("Waiting..");
         Label lblimage = new Label();
+        Button playOrPauseBtn = new Button("Play");
+        Button speedUpBtn = new Button("Speed+");
+        Button slowDownBtn = new Button("Speed-");
+        
+        HBox hb = new HBox(10, playOrPauseBtn, speedUpBtn, slowDownBtn);
         
         Image img = new Image("file:images/" + num + ".jpg");
+       
+        
         
         lblimage.setGraphic(new ImageView(img));
         
         root.setTop(top);
-        root.setBottom(bottom);
+        root.setBottom(hb);
         middle.getChildren().add(lblimage);
         root.setCenter(middle);
         

@@ -4,7 +4,9 @@
  */
 package javafxdemo;
 
-import java.util.Random;
+import javafx.animation.FadeTransition;
+import javafx.animation.SequentialTransition;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -15,6 +17,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 /**
  *
@@ -32,35 +35,46 @@ public class JavaFXDemo extends Application{
    
     @Override
     public void start(Stage primaryStage) {
-        Random random = new Random();
-        int min = 101;
-        int max = 120;
-        
-        int num = random.nextInt(min, max + 1);
-        
         primaryStage.setTitle("Java Games");
         BorderPane root = new BorderPane();
         Scene scene = new Scene(root, 250, 300);
         
         StackPane middle = new StackPane();
         Label top = new Label("Random Game");
-        //Label bottom = new Label("Waiting..");
-        Label lblimage = new Label();
+        Label lblImage = new Label();
         Button playOrPauseBtn = new Button("Play");
         Button speedUpBtn = new Button("Speed+");
         Button slowDownBtn = new Button("Speed-");
         
         HBox hb = new HBox(10, playOrPauseBtn, speedUpBtn, slowDownBtn);
         
-        Image img = new Image("file:images/" + num + ".jpg");
-       
+        Image[] imgs = new Image[20];
+        for (int i = 0; i < 20; i++) {
+            String path = String.format("file:images/" + (i + 101) + ".jpg");
+            imgs[i] = new Image(path); 
+            lblImage.setGraphic(new ImageView(imgs[i]));
+        }
         
+        SequentialTransition st = new SequentialTransition();
         
-        lblimage.setGraphic(new ImageView(img));
+        for (int i = 0; i < 20; i++) {
+            int idx = i;
+            
+            FadeTransition ft = new FadeTransition(Duration.millis(2000), lblImage);
+            lblImage.setGraphic(new ImageView(imgs[idx]));
+            ft.setOnFinished(e -> {
+                lblImage.setGraphic(new ImageView(imgs[idx + 1]));
+            });
+            
+            st.getChildren().addAll(ft);
+        }
+        
+        st.setCycleCount(Timeline.INDEFINITE);
+        st.play();
         
         root.setTop(top);
         root.setBottom(hb);
-        middle.getChildren().add(lblimage);
+        middle.getChildren().add(lblImage);
         root.setCenter(middle);
         
         primaryStage.setScene(scene);

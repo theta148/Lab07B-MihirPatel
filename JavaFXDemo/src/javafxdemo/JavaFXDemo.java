@@ -8,6 +8,7 @@ import javafx.animation.FadeTransition;
 import javafx.animation.SequentialTransition;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -37,16 +38,17 @@ public class JavaFXDemo extends Application{
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Java Games");
         BorderPane root = new BorderPane();
-        Scene scene = new Scene(root, 250, 300);
+        Scene scene = new Scene(root, 400, 400);
         
         StackPane middle = new StackPane();
         Label top = new Label("Random Game");
         Label lblImage = new Label();
-        Button playOrPauseBtn = new Button("Play");
+        Button playBtn = new Button("Play");
+        Button pauseBtn = new Button("Pause");
         Button speedUpBtn = new Button("Speed+");
         Button slowDownBtn = new Button("Speed-");
         
-        HBox hb = new HBox(10, playOrPauseBtn, speedUpBtn, slowDownBtn);
+        HBox hb = new HBox(10, playBtn, pauseBtn, speedUpBtn, slowDownBtn);
         
         Image[] imgs = new Image[20];
         for (int i = 0; i < 20; i++) {
@@ -71,27 +73,26 @@ public class JavaFXDemo extends Application{
         
         st.setCycleCount(Timeline.INDEFINITE);
         
-        playOrPauseBtn.setOnAction(e -> {
-            if () {
-                st.play();
-                playOrPauseBtn = new Button("Pause");
-            } else {
-                st.pause();
-                playOrPauseBtn = new Button("Play");
-            }
-            
+        playBtn.setOnAction(e -> {
+            st.play();
         });
          
+        pauseBtn.setOnAction(e -> {
+            st.pause();
+        });
+        
         speedUpBtn.setOnAction(e -> {
-            st.setRate(1.01);
+            st.setRate(st.getRate() * 1.1);
         });
         
         slowDownBtn.setOnAction(e -> {
-            st.setRate(0.99);
+            st.setRate(st.getRate() * (1 / 1.1));
         });
         
         root.setTop(top);
+        top.setAlignment(Pos.CENTER);
         root.setBottom(hb);
+        hb.setAlignment(Pos.CENTER);
         middle.getChildren().add(lblImage);
         root.setCenter(middle);
         

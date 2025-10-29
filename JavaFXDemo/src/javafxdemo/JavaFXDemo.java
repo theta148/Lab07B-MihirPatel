@@ -70,7 +70,25 @@ public class JavaFXDemo extends Application{
         }
         
         st.setCycleCount(Timeline.INDEFINITE);
-        st.play();
+        
+        playOrPauseBtn.setOnAction(e -> {
+            if () {
+                st.play();
+                playOrPauseBtn = new Button("Pause");
+            } else {
+                st.pause();
+                playOrPauseBtn = new Button("Play");
+            }
+            
+        });
+         
+        speedUpBtn.setOnAction(e -> {
+            st.setRate(1.01);
+        });
+        
+        slowDownBtn.setOnAction(e -> {
+            st.setRate(0.99);
+        });
         
         root.setTop(top);
         root.setBottom(hb);
